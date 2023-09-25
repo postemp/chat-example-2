@@ -63,6 +63,11 @@ public class ClientHandler {
                     String login = args[1];
                     String nick = args[2];
                     String role = args[3];
+                    if (!(role.equals("ADMIN") || role.equals("USER"))) {
+                        System.out.println("Роль может быть ADMIN или USER");
+                        sendMessage("Роль может быть ADMIN или USER");
+                        continue;
+                    }
                     String password = args[4];
                     boolean isRegistred = server.getAuthenticationProvider().register(login, password, role, nick);
                     if (!isRegistred) {
@@ -95,6 +100,7 @@ public class ClientHandler {
                 switch (command) {
                     case "/exit": {
                         System.out.println("exit");
+                        this.disconnect();
                         break;
                     }
                     case "/list": {
