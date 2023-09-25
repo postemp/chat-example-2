@@ -40,6 +40,19 @@ public class Main extends JFrame implements Runnable {
                 }
         );
 
+        // посылает сообщения через нажатие Enter
+        // сделал по аналогии не вникая
+        inTextField.addActionListener(event -> {
+                    String text = inTextField.getText();
+                    try {
+                        network.sendMeassage(text);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 500);
         setVisible(true);
