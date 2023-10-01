@@ -46,6 +46,7 @@ public class Server {
 
     public synchronized void unsubscribe(ClientHandler clientHandler) {
         clients.remove(clientHandler);
+        System.out.println("Клиент: " + clientHandler.getUsername() + " вышел из чата");
         broadcastMessage("Клиент: " + clientHandler.getUsername() + " вышел из чата");
     }
 
@@ -60,4 +61,28 @@ public class Server {
 //                .map(client -> client.getUsername())
                 .collect(Collectors.toList());
     }
+    public synchronized void sendMessageToUser(String user, String message) {
+        for (ClientHandler client : clients) {
+            System.out.println("User:" + client.getUsername());
+            if (client.getUsername().equals(user)){
+                System.out.println("message to: "+client.getUsername());
+                client.sendMessage(message);
+            }
+        }
+    }
+
+    public synchronized boolean kickUser(String user, String whoDoes) {
+        System.out.println("Отключает пользователь: "+ whoDoes);
+        for (ClientHandler client : clients) {
+            System.out.println("User:" + client.getUsername());
+            if (client.getUsername().equals(user)){
+                System.out.println("kick user: "+client.getUsername());
+                client.sendMessage("Вас отключают");
+                client.disconnect();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
